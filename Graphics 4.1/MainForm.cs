@@ -29,7 +29,6 @@ namespace Graphics_4._1
         private readonly SoundPlayer Button_Click = new SoundPlayer(Properties.Resources.Button_Click_2);
         private readonly SoundPlayer Gate_Open = new SoundPlayer(Properties.Resources.Gate_Open);
         private readonly WaveOutEvent Music_Output = new WaveOutEvent();
-        WMPLib.WindowsMediaPlayer player = new WMPLib.WindowsMediaPlayer();
 
         private int width = 200;
         private int height = 400;
@@ -81,8 +80,7 @@ namespace Graphics_4._1
         /// </summary>
         private void Main_Menu()
         {
-            Music_Output.Volume = 100;
-            player.settings.volume = 100;
+            Music_Output.Volume = 1; //Takes values from 0-1;
             Crosshair.Enabled = false;
             Crosshair.Visible = false;
             Graphics GFX = Graphics.FromImage(drawingSurface);
