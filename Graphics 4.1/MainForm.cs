@@ -29,6 +29,7 @@ namespace Graphics_4._1
         private readonly SoundPlayer Button_Click = new SoundPlayer(Properties.Resources.Button_Click_2);
         private readonly SoundPlayer Gate_Open = new SoundPlayer(Properties.Resources.Gate_Open);
         private readonly WaveOutEvent Music_Output = new WaveOutEvent();
+        WMPLib.WindowsMediaPlayer player = new WMPLib.WindowsMediaPlayer();
 
         private int width = 200;
         private int height = 400;
@@ -80,6 +81,8 @@ namespace Graphics_4._1
         /// </summary>
         private void Main_Menu()
         {
+            Music_Output.Volume = 100;
+            player.settings.volume = 100;
             Crosshair.Enabled = false;
             Crosshair.Visible = false;
             Graphics GFX = Graphics.FromImage(drawingSurface);
@@ -280,15 +283,20 @@ namespace Graphics_4._1
         /// </summary>
         private void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
         {
+            try
+            {
+                UnmanagedMemoryStream sound1 = Properties.Resources.Cycle_Sort_1;
 
-            UnmanagedMemoryStream sound1 = Properties.Resources.Cycle_Sort_1;
+                byte[] b = ReadToEnd(sound1);
 
-            byte[] b = ReadToEnd(sound1);
-
-            WaveStream wav = new RawSourceWaveStream(new MemoryStream(b), new WaveFormat(44100, 16, 2));
-            Music_Output.Init(wav);
-            Music_Output.Play();
-            Music_Output.PlaybackStopped += Output_PlaybackStopped;
+                WaveStream wav = new RawSourceWaveStream(new MemoryStream(b), new WaveFormat(44100, 16, 2));
+                Music_Output.Init(wav);
+                Music_Output.Play();
+                Music_Output.PlaybackStopped += Output_PlaybackStopped;
+            }
+            catch {
+                this.Close();
+            }
         }
         /// <summary>
         /// Loops the music;
@@ -357,6 +365,7 @@ namespace Graphics_4._1
                 }
             }
         }
+
         //--------------------------------------------------------------------------------------------
 
     }
